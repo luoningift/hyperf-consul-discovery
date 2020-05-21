@@ -1,4 +1,4 @@
-#### Hyperf-http-client
+#### Hyperf-discovery
 
 ##### 1.安装
 在项目中 `composer.json` 的 `repositories` 项中增加
@@ -8,7 +8,7 @@
     "repositories":{
         "hky/hyperf-discovery":{
             "type":"vcs",
-            "url":"git@192.168.100.11:base/hky-packages-hyperf-discovery.gi"
+            "url":"git@192.168.100.11:base/hky-packages-hyperf-discovery.git"
         }
         ....
     }
