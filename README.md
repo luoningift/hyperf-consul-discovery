@@ -39,3 +39,4 @@ SwooleEvent::ON_MANAGER_STOP => [Hyperf\Framework\Bootstrap\ManagerStopCallback:
 ```
 ### 版本改动:
 v1.0.0   增加 http-discovery 注册发现
+v1.0.1   增加 http-discovery 注册发现
