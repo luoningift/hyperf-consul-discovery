@@ -37,6 +37,11 @@ SwooleEvent::ON_MANAGER_STOP => [Hyperf\Framework\Bootstrap\ManagerStopCallback:
      'net_card' => '',
 ],
 ```
+##### 4.服务注册注意事项
+```$xslt
+项目的config/config.php 中的app_name项目名称一定要保证在整个项目组唯一 服务发现注册的名称为app_name
+```
 ### 版本改动:
 v1.0.0   增加 http-discovery 注册发现
 v1.0.1   增加 http-discovery 注册发现
+v1.0.2   增加服务注册注意事项
