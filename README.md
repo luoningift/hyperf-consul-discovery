@@ -34,8 +34,7 @@ $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
 ##### 3.实现健康检查接口
 ```php
 <?php
-// callbacks 中增加
-// routes.php Router::addRoute(['GET', 'POST', 'HEAD'], '/health/check', 'App\Controller\IndexController@health');
+// config/routes.php Router::addRoute(['GET', 'POST', 'HEAD'], '/health/check', 'App\Controller\IndexController@health');
 public function health() {
    return "success";
 }
@@ -43,6 +42,7 @@ public function health() {
 ##### 4.服务注册注意事项
 ```$xslt
 项目的config/config.php 中的app_name项目名称一定要保证在整个项目组唯一 服务发现注册的名称为app_name
+本地测试，consul官网下载软件，执行
 ```
 ### 版本改动:
 ```$xslt
