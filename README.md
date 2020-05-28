@@ -19,12 +19,6 @@
 $ composer require hky/hyperf-discovery
 $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
 ```
-##### 2.修改配置文件config/autoload/server.php
-```php
-<?php
-// callbacks 中增加
-SwooleEvent::ON_MANAGER_STOP => [Hyperf\Framework\Bootstrap\ManagerStopCallback::class, 'onManagerStop'],
-```
 ##### 3.配置文件说明config/autoload/discovery.php
 ```php
 <?php
@@ -37,12 +31,22 @@ SwooleEvent::ON_MANAGER_STOP => [Hyperf\Framework\Bootstrap\ManagerStopCallback:
      'net_card' => '',
 ],
 ```
+##### 4.实现健康检查接口
+```php
+<?php
+// callbacks 中增加
+// routes.php Router::addRoute(['GET', 'POST', 'HEAD'], '/health/check', 'App\Controller\IndexController@health');
+public function health() {
+   return "success";
+}
+```
 ##### 4.服务注册注意事项
 ```$xslt
 项目的config/config.php 中的app_name项目名称一定要保证在整个项目组唯一 服务发现注册的名称为app_name
 ```
 ### 版本改动:
 ```$xslt
+v1.0.3   服务注册和注销逻辑修改
 v1.0.2   增加服务注册注意事项
 v1.0.1   增加 hyperf-discovery 注册发现
 v1.0.0   增加 hyperf-discovery 注册发现
