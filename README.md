@@ -19,7 +19,7 @@
 $ composer require hky/hyperf-discovery
 $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
 ```
-##### 3.配置文件说明config/autoload/discovery.php
+##### 2.配置文件说明config/autoload/discovery.php
 ```php
 <?php
 'consul' => [
@@ -31,7 +31,7 @@ $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
      'net_card' => '',
 ],
 ```
-##### 4.实现健康检查接口
+##### 3.实现健康检查接口
 ```php
 <?php
 // callbacks 中增加
