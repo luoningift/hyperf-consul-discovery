@@ -13,9 +13,8 @@ namespace HKY\HyperfDiscovery;
 
 
 use HKY\HyperfDiscovery\Listener\AfterWorkerStartListener;
+use HKY\HyperfDiscovery\Listener\AfterWorkerStopListener;
 use HKY\HyperfDiscovery\Listener\BeforeMainServerStartListener;
-use HKY\HyperfDiscovery\Listener\MainWorkerStartListener;
-use HKY\HyperfDiscovery\Listener\ManagerStopListener;
 
 class ConfigProvider
 {
@@ -24,9 +23,7 @@ class ConfigProvider
         return [
             'listeners' => [
                 AfterWorkerStartListener::class,
-                BeforeMainServerStartListener::class,
-                MainWorkerStartListener::class,
-                ManagerStopListener::class,
+                AfterWorkerStopListener::class,
             ],
             'dependencies' => [
             ],

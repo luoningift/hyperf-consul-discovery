@@ -12,6 +12,16 @@ use Hyperf\Utils\ApplicationContext;
 class AfterWorkerStartListener implements ListenerInterface
 {
 
+    /**
+     * @var ConsulRegisterAtomic
+     */
+    private $atomic;
+
+    public function __construct()
+    {
+        $this->atomic = new ConsulRegisterAtomic();
+    }
+
     public function listen(): array
     {
         return [
@@ -21,8 +31,6 @@ class AfterWorkerStartListener implements ListenerInterface
 
     public function process(object $event)
     {
-        $container = ApplicationContext::getContainer();
-        $container->get(StdoutLoggerInterface::class)->info('consul: atomic incr one success!');
-        $container->get(ConsulRegisterAtomic::class)->add();
+        $this->atomic->register();
     }
 }

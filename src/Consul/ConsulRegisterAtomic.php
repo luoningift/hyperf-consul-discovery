@@ -3,8 +3,10 @@
 namespace HKY\HyperfDiscovery\Consul;
 
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Utils\ApplicationContext;
 use Swoole\Atomic;
+use Swoole\Process;
 
 /**
  * register self to consul
@@ -16,32 +18,54 @@ class ConsulRegisterAtomic
 
     private $atomic;
 
+    private $delAtomic;
+
     public function __construct()
     {
-       $this->atomic = new Atomic();
+        $this->atomic = new Atomic();
+        $this->delAtomic = new Atomic();
     }
 
     /**
-     * 计数启动的worker数量
+     * 注册服务
      */
-    public function add()
+    public function register()
     {
+
         $container = ApplicationContext::getContainer();
         $config = $container->get(ConfigInterface::class);
-        $workerNum = $config->get('server.settings.worker_num');
-        if (intval($this->atomic->get()) <= intval($workerNum)) {
-            $this->atomic->add();
+        $workerNum = intval($config->get('server.settings.worker_num'));
+        if (intval($this->atomic->get()) <= $workerNum) {
+            if ($this->atomic->add() == $workerNum) {
+                $logger = $container->get(StdoutLoggerInterface::class);
+                try {
+                    $container->get(ConsulRegisterService::class)->add();
+                } catch (\Exception $throwable) {
+                    $logger->error(sprintf('%s[%s] in %s', 'consul: ' . $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+                    $logger->error('consul: ' . $throwable->getTraceAsString());
+                }
+            }
         }
     }
 
+
     /**
-     * 判断worker是否启动
-     * @return bool
+     * 注销服务事件
      */
-    public function isReady() {
+    public function shutdown()
+    {
+
         $container = ApplicationContext::getContainer();
         $config = $container->get(ConfigInterface::class);
-        $workerNum = $config->get('server.settings.worker_num'); 
-        return intval($this->atomic->get()) == intval($workerNum);
+        $workerNum = intval($config->get('server.settings.worker_num'));
+        if ($this->delAtomic->add() == $workerNum) {
+            $logger = $container->get(StdoutLoggerInterface::class);
+            try {
+                $container->get(ConsulRegisterService::class)->del();
+            } catch (\Exception $throwable) {
+                $logger->error(sprintf('%s[%s] in %s', 'consul: ' . $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+                $logger->error('consul: ' . $throwable->getTraceAsString());
+            }
+        }
     }
 }
