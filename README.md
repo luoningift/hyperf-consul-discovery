@@ -25,11 +25,12 @@ $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
 'consul' => [
      //服务发现地址，多个以英文;隔开
      'url' => 'http://127.0.0.1:8500;http://192.168.100.141:8500',
-     //是否关闭服务发现，0关闭 1开启
+     //是否关闭服务发现，0关闭 1开启 
      'enable' => 0,
      //读取哪个网卡信息 ifconfig命令查看 比如：eth0 eth1 无特殊需要 留空就好
      'net_card' => '',
 ],
+//将配置里的enable改成1
 ```
 ##### 3.实现健康检查接口
 ```php
@@ -43,6 +44,15 @@ public function health() {
 ```$xslt
 项目的config/config.php 中的app_name项目名称一定要保证在整个项目组唯一 服务发现注册的名称为app_name
 本地测试，consul官网下载软件，执行
+```
+##### 5.服务发现本地测试
+```@xslt
+官网下载https://www.consul.io/downloads 软件后执行
+启动consul: ./consul agent -dev -client 0.0.0.0 -ui
+启动hyperf项目
+打开consul http界面 根据你的配置 8500端口 比如http://127.0.0.1:8500
+出现你第四步配置的app_name 表示注册成功
+点进去出现两个绿点表示 注册成功 健康检测成功
 ```
 ### 版本改动:
 ```$xslt
