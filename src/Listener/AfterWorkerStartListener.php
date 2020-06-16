@@ -19,6 +19,7 @@ class AfterWorkerStartListener implements ListenerInterface
 
     public function __construct()
     {
+
         $this->atomic = new ConsulRegisterAtomic();
     }
 
