@@ -24,13 +24,18 @@ $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
 <?php
 'consul' => [
      //服务发现地址，多个以英文;隔开
-     'url' => 'http://127.0.0.1:8500;http://192.168.100.141:8500',
+     'url' => env('CONSUL_URL', 'http://127.0.0.1:8500'),
      //是否关闭服务发现，0关闭 1开启 
-     'enable' => 0,
+     'enable' => (int) env('CONSUL_ENABLE', 1),
      //读取哪个网卡信息 ifconfig命令查看 比如：eth0 eth1 无特殊需要 留空就好
      'net_card' => '',
 ],
-//将配置里的enable改成1
+```
+```$xslt
+.env文件配置样式
+CONSUL_ENABLE=0
+CONSUL_URL=http://127.0.0.1:8500
+CONSUL_NET_CARD=
 ```
 ##### 3.实现健康检查接口
 ```php
@@ -42,8 +47,9 @@ public function health() {
 ```
 ##### 4.服务注册注意事项
 ```$xslt
-项目的config/config.php 中的app_name项目名称一定要保证在整个项目组唯一 服务发现注册的名称为app_name
-本地测试，consul官网下载软件，执行
+1、项目的config/config.php 中的app_name项目名称一定要保证在整个项目组唯一 服务发现注册的名称为app_name
+2、本地测试，consul官网下载软件，执行
+3、注册服务未成功，检查三个方面(consul ip和端口是否可访问， 注册的ip地址是否外网可访问， 配置文件里面的enable的值是否为1)
 ```
 ##### 5.服务发现本地测试
 ```@xslt
@@ -57,7 +63,7 @@ public function health() {
 ```
 ### 版本改动:
 ```$xslt
-v1.0.3   服务注册和注销逻辑修改
+v1.0.3   服务注册和注销逻辑修改, 修改使用说明
 v1.0.2   增加服务注册注意事项
 v1.0.1   增加 hyperf-discovery 注册发现
 v1.0.0   增加 hyperf-discovery 注册发现

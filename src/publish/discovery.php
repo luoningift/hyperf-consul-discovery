@@ -3,9 +3,8 @@
 declare(strict_types=1);
 return [
     'consul' => [
-        'url' => 'http://127.0.0.1:8500',
-        'enable' => 0,
-        //读取哪个网卡信息
-        'net_card' => '',
+        'url' => env('CONSUL_URL', 'http://127.0.0.1:8500'),
+        'enable' => (int) env('CONSUL_ENABLE', 1),
+        'net_card' => env('CONSUL_NET_CARD', ''),
     ],
 ];
