@@ -23,7 +23,9 @@ $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
 ```php
 <?php
 'consul' => [
-     //服务发现地址，多个以英文;隔开
+     //服务发现地址，多个以英文;隔开 
+     //多个地址是指consul一个集群中的多个ip 不要把测试的和正式的服务发现地址都写到里面，用env文件区分不同的环境注册发现地址
+     //说明：env环境 (local dev test pre online) 都有各自的consul集群，需要填写各自consul集群ip地址
      'url' => env('CONSUL_URL', 'http://127.0.0.1:8500'),
      //是否关闭服务发现，0关闭 1开启 
      'enable' => (int) env('CONSUL_ENABLE', 0),
