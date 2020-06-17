@@ -8,7 +8,7 @@
     "repositories":{
         "hky/hyperf-discovery":{
             "type":"vcs",
-            "url":"git@192.168.100.11:base/hky-packages-hyperf-discovery.git"
+            "url":"http://icode.kaikeba.com/base/hky-packages-hyperf-discovery.git"
         }
         ....
     }
@@ -19,6 +19,13 @@
 $ composer require hky/hyperf-discovery
 $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
 ```
+如果遇到错误信息为:
+`Your configuration does not allow connections to http://icode.kaikeba.com/base/hky-packages-hyperf-http-client.git. See https://getcomposer.org/doc/06-config.md#secure-http for details` 
+执行以下命令
+```bash
+$ composer config secure-http false
+```
+
 ##### 2.配置文件说明config/autoload/discovery.php
 ```php
 <?php
@@ -26,18 +33,18 @@ $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
      //服务发现地址，多个以英文;隔开 
      //多个地址是指consul一个集群中的多个ip 不要把测试的和正式的服务发现地址都写到里面，用env文件区分不同的环境注册发现地址
      //说明：env环境 (local dev test pre online) 都有各自的consul集群，需要填写各自consul集群ip地址
-     'url' => env('CONSUL_URL', 'http://127.0.0.1:8500'),
+     'url' => env('DISCOVERY_CONSUL_URL', 'http://127.0.0.1:8500'),
      //是否关闭服务发现，0关闭 1开启 
-     'enable' => (int) env('CONSUL_ENABLE', 0),
+     'enable' => (int) env('DISCOVERY_CONSUL_ENABLE', 0),
      //读取哪个网卡信息 ifconfig命令查看 比如：eth0 eth1 无特殊需要 留空就好
-     'net_card' => '',
+     'net_card' => env('DISCOVERY_CONSUL_NET_CARD', ''),
 ],
 ```
 ```$xslt
 .env文件配置样式
-CONSUL_ENABLE=0
-CONSUL_URL=http://127.0.0.1:8500
-CONSUL_NET_CARD=
+CDISCOVERY_ONSUL_ENABLE=0
+CDISCOVERY_ONSUL_URL=http://127.0.0.1:8500
+CDISCOVERY_ONSUL_NET_CARD=
 ```
 ##### 3.实现健康检查接口
 ```php
@@ -65,6 +72,7 @@ public function health() {
 ```
 ### 版本改动:
 ```$xslt
+v1.0.4   注册服务发现说明修改
 v1.0.3   服务注册和注销逻辑修改, 修改使用说明
 v1.0.2   增加服务注册注意事项
 v1.0.1   增加 hyperf-discovery 注册发现
