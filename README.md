@@ -72,6 +72,7 @@ public function health() {
 ```
 ### 版本改动:
 ```$xslt
+v1.0.4   注册服务发现说明修改
 v1.0.3   服务注册和注销逻辑修改, 修改使用说明
 v1.0.2   增加服务注册注意事项
 v1.0.1   增加 hyperf-discovery 注册发现
