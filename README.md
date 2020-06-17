@@ -42,9 +42,9 @@ $ composer config secure-http false
 ```
 ```$xslt
 .env文件配置样式
-CDISCOVERY_ONSUL_ENABLE=0
-CDISCOVERY_ONSUL_URL=http://127.0.0.1:8500
-CDISCOVERY_ONSUL_NET_CARD=
+CDISCOVERY_CONSUL_ENABLE=0
+CDISCOVERY_CONSUL_URL=http://127.0.0.1:8500
+CDISCOVERY_CONSUL_NET_CARD=
 ```
 ##### 3.实现健康检查接口
 ```php
