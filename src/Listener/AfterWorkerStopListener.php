@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace HKY\HyperfDiscovery\Listener;
@@ -7,24 +6,32 @@ namespace HKY\HyperfDiscovery\Listener;
 use HKY\HyperfDiscovery\Consul\ConsulRegisterAtomic;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Event\Contract\ListenerInterface;
-use Hyperf\Framework\Event\BeforeMainServerStart;
+use Hyperf\Framework\Event\AfterWorkerStart;
+use Hyperf\Framework\Event\OnWorkerStop;
 use Hyperf\Utils\ApplicationContext;
 
-class BeforeMainServerStartListener implements ListenerInterface
+class AfterWorkerStopListener implements ListenerInterface
 {
+
+    /**
+     * @var ConsulRegisterAtomic
+     */
+    private $atomic;
+
+    public function __construct()
+    {
+        $this->atomic = new ConsulRegisterAtomic();
+    }
 
     public function listen(): array
     {
         return [
-            BeforeMainServerStart::class,
+            OnWorkerStop::class,
         ];
     }
 
-
     public function process(object $event)
     {
-        $container = ApplicationContext::getContainer();
-        $container->get(StdoutLoggerInterface::class)->info('consul: atomic init success!');
-        $container->get(ConsulRegisterAtomic::class);
+        $this->atomic->shutdown();
     }
 }

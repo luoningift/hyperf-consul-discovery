@@ -92,7 +92,7 @@ class ConsulRegisterService
                 [
                     'name' => $this->consulId . '-check',
                     'http' => 'http://' . $this->registerIp . ':' . $this->registerPort . '/health/check',
-                    'interval' => "10s",
+                    'interval' => "5s",
                     'timeout' => "2s",
                 ]
             ]
