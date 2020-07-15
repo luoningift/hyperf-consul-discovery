@@ -25,13 +25,7 @@ $ php bin/hyperf.php vendor:publish hky/hyperf-discovery
 ```bash
 $ composer config secure-http false
 ```
-##### 2.在config/autoload/server.php增加onshutdown配置项
-```php
- 'callbacks' => [
-      SwooleEvent::ON_SHUTDOWN => [Hyperf\Framework\Bootstrap\ShutdownCallback::class, 'onShutdown']
- ],
-```
-##### 3.配置文件说明config/autoload/discovery.php
+##### 2.配置文件说明config/autoload/discovery.php
 ```php
 <?php
 'consul' => [
@@ -51,7 +45,7 @@ CDISCOVERY_CONSUL_ENABLE=0
 CDISCOVERY_CONSUL_URL=http://127.0.0.1:8500
 CDISCOVERY_CONSUL_NET_CARD=
 ```
-##### 4.实现健康检查接口
+##### 3.实现健康检查接口
 ```php
 <?php
 // config/routes.php Router::addRoute(['GET', 'POST', 'HEAD'], '/health/check', 'App\Controller\IndexController@health');
@@ -59,13 +53,13 @@ public function health() {
    return "success";
 }
 ```
-##### 5.服务注册注意事项
+##### 4.服务注册注意事项
 ```$xslt
 1、项目的config/config.php 中的app_name项目名称一定要保证在整个项目组唯一 服务发现注册的名称为app_name
 2、本地代码开发不进行consul注册，在env.dev和env.local中配置CONSUL_ENABLE=0, 在env.test, env.pre, env.online中配置CONSUL_ENABLE=1
 3、注册服务未成功，检查四个方面(consul ip和端口是否可访问， 注册的ip地址是否外网可访问， 配置文件里面的enable的值是否为1， 是否在项目中增加了健康检查的接口(步骤3))
 ```
-##### 6.服务发现本地测试
+##### 5.服务发现本地测试
 ```@xslt
 官网下载https://www.consul.io/downloads 软件后执行
 启动consul: ./consul agent -dev -client 0.0.0.0 -ui
