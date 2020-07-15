@@ -18,12 +18,9 @@ class ConsulRegisterAtomic
 
     private $atomic;
 
-    private $delAtomic;
-
     public function __construct()
     {
         $this->atomic = new Atomic();
-        $this->delAtomic = new Atomic();
     }
 
     /**
@@ -56,16 +53,12 @@ class ConsulRegisterAtomic
     {
 
         $container = ApplicationContext::getContainer();
-        $config = $container->get(ConfigInterface::class);
-        $workerNum = intval($config->get('server.settings.worker_num'));
-        if ($this->delAtomic->add() == $workerNum) {
-            $logger = $container->get(StdoutLoggerInterface::class);
-            try {
-                $container->get(ConsulRegisterService::class)->del();
-            } catch (\Exception $throwable) {
-                $logger->error(sprintf('%s[%s] in %s', 'consul: ' . $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
-                $logger->error('consul: ' . $throwable->getTraceAsString());
-            }
+        $logger = $container->get(StdoutLoggerInterface::class);
+        try {
+            $container->get(ConsulRegisterService::class)->del();
+        } catch (\Exception $throwable) {
+            $logger->error(sprintf('%s[%s] in %s', 'consul: ' . $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+            $logger->error('consul: ' . $throwable->getTraceAsString());
         }
     }
 }

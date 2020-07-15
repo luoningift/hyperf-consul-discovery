@@ -107,11 +107,11 @@ class ConsulRegisterService
                     ]);
                 });
                 $statusCodes[] = $agent->registerService($registerService)->getStatusCode();
-                $logger->info("consul: register to " . $consulUrl . ' succcess !');
+                $logger->info(date("Y-m-d H:i:s") ." consul: register to " . $consulUrl . ' succcess !');
             } catch (\Exception $throwable) {
-                $logger->error("consul: register to " . $consulUrl . ' failed !');
-                $logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
-                $logger->error($throwable->getTraceAsString());
+                $logger->error(date("Y-m-d H:i:s") . " consul: register to " . $consulUrl . ' failed !');
+                $logger->error(date("Y-m-d H:i:s") . ' ' . sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+                $logger->error(date("Y-m-d H:i:s") . ' ' .$throwable->getTraceAsString());
             }
         }
         foreach ($statusCodes as $status) {
@@ -142,11 +142,11 @@ class ConsulRegisterService
                     ]);
                 });
                 $statusCodes[] = $agent->deregisterService(urlencode($this->consulId))->getStatusCode();
-                $logger->info("consul: deregister to " . $consulUrl . ' succcess !');
+                $logger->info(date("Y-m-d H:i:s") . " consul: deregister to " . $consulUrl . ' succcess !');
             } catch (\Exception $throwable) {
-                $logger->error("consul: deregister to " . $consulUrl . ' failed !');
-                $logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
-                $logger->error($throwable->getTraceAsString());
+                $logger->error(date("Y-m-d H:i:s") . " consul: deregister to " . $consulUrl . ' failed !');
+                $logger->error(date("Y-m-d H:i:s") . sprintf( ' %s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+                $logger->error(date("Y-m-d H:i:s") . ' ' . $throwable->getTraceAsString());
             }
         }
         foreach ($statusCodes as $status) {

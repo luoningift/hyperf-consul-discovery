@@ -7,10 +7,11 @@ use HKY\HyperfDiscovery\Consul\ConsulRegisterAtomic;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\AfterWorkerStart;
+use Hyperf\Framework\Event\OnShutdown;
 use Hyperf\Framework\Event\OnWorkerStop;
 use Hyperf\Utils\ApplicationContext;
 
-class AfterWorkerStopListener implements ListenerInterface
+class OnShutdownListener implements ListenerInterface
 {
 
     /**
@@ -26,7 +27,7 @@ class AfterWorkerStopListener implements ListenerInterface
     public function listen(): array
     {
         return [
-            OnWorkerStop::class,
+            OnShutdown::class,
         ];
     }
 

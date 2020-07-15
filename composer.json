@@ -2,7 +2,7 @@
   "name": "hky/hyperf-discovery",
   "description": "service discovery",
   "type": "library",
-  "version" : "1.0.3",
+  "version" : "1.0.5",
   "authors": [
     {
       "name": "luoning",
