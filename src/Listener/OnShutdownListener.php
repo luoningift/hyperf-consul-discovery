@@ -8,6 +8,7 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\AfterWorkerStart;
 use Hyperf\Framework\Event\OnShutdown;
+use Hyperf\Framework\Event\OnWorkerExit;
 use Hyperf\Framework\Event\OnWorkerStop;
 use Hyperf\Utils\ApplicationContext;
 

@@ -14,6 +14,7 @@ namespace HKY\HyperfDiscovery;
 
 use HKY\HyperfDiscovery\Listener\AfterWorkerStartListener;
 use HKY\HyperfDiscovery\Listener\OnShutdownListener;
+use Hyperf\Server\SwooleEvent;
 
 class ConfigProvider
 {
@@ -42,6 +43,11 @@ class ConfigProvider
                     'description' => 'The config of discovery config.',
                     'source' => __DIR__ . '/publish/discovery.php',
                     'destination' => BASE_PATH . '/config/autoload/discovery.php',
+                ],
+            ],
+            'server' => [
+                'callbacks' => [
+                    SwooleEvent::ON_SHUTDOWN => [\Hyperf\Framework\Bootstrap\ShutdownCallback::class, 'onShutdown']
                 ],
             ],
         ];

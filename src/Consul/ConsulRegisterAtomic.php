@@ -32,15 +32,13 @@ class ConsulRegisterAtomic
         $container = ApplicationContext::getContainer();
         $config = $container->get(ConfigInterface::class);
         $workerNum = intval($config->get('server.settings.worker_num'));
-        if (intval($this->atomic->get()) <= $workerNum) {
-            if ($this->atomic->add() == $workerNum) {
-                $logger = $container->get(StdoutLoggerInterface::class);
-                try {
-                    $container->get(ConsulRegisterService::class)->add();
-                } catch (\Exception $throwable) {
-                    $logger->error(sprintf('%s[%s] in %s', 'consul: ' . $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
-                    $logger->error('consul: ' . $throwable->getTraceAsString());
-                }
+        if ($this->atomic->add() == $workerNum) {
+            $logger = $container->get(StdoutLoggerInterface::class);
+            try {
+                $container->get(ConsulRegisterService::class)->add();
+            } catch (\Exception $throwable) {
+                $logger->error(sprintf('%s[%s] in %s', 'consul: ' . $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+                $logger->error('consul: ' . $throwable->getTraceAsString());
             }
         }
     }
